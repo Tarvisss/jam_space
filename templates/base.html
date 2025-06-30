@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jam Space</title>
+
+  
+  <link rel="stylesheet"href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+  <script src="https://unpkg.com/jquery"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/bootstrap"></script>
+  <link rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  <link rel="stylesheet" href="/static/stylesheets/style.css">
+
+  <!-- Loading a favicon (the small icon shown in the browser tab) from the /static/favicon.ico file. -->
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/rock-and-roll.png') }}">
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+<!-- The body element contains the main content of the page.
+     The body_class can be dynamically set by child templates using Jinja template syntax. -->
+
+<nav class="navbar navbar-expand">
+  <!-- Creates a navigation bar using Bootstrap's 'navbar' class, with the 'navbar-expand' class making it responsive. -->
+  <div class="container-fluid">
+    <!-- Container for the navbar to make sure it is aligned properly across various screen sizes. -->
+
+    <div class="navbar-header">
+      <!-- A container for the brand logo and title. -->
+
+      <!-- The 'a' tag defines the link to the homepage. -->
+      <a href="/" class="navbar-brand">
+        <!-- Displays the logo (an image) and the brand name next to it. -->
+        <img src="{{ url_for('static', filename='images/rock-and-roll.png') }}" alt="logo">
+        <!-- The 'url_for' function generates the correct URL for the static image (rock-and-roll.png). -->
+        <span>Jam Space</span>
+        <!-- Displays the brand name next to the logo. -->
+      </a>
+    </div>
+
+    <ul class="nav navbar-nav navbar-right">
+      <!-- Creates a list of navigation items aligned to the right side of the navbar. -->
+
+      {% if request.endpoint != None %}
+      <!-- Checks if the current page is not None, which means the search bar should be displayed only if the page has a request endpoint. -->
+
+      <li>
+        <!-- A list item that contains the search form. -->
+        <form class="navbar-form navbar-right" action="/users">
+          <input name="q" class="form-control" placeholder="Search Jam Space" id="search">
+          <button class="btn btn-default">
+            <span class="fa fa-search" style="color:black"></span>
+          </button>
+        </form>
+      </li>
+      {% endif %}
+
+      {% if not g.user %}
+      <!-- Checks if the user is not logged in (i.e., 'g.user' is not set). If true, show Sign Up and Log In links. -->
+      <li><a href="/pre-signup">Sign up</a></li>
+      <!-- Link to the sign-up page. -->
+      <li><a href="/login">Log in</a></li>
+      <!-- Link to the log-in page. -->
+      {% else %}
+      <!-- If the user is logged in, show personalized navigation items. -->
+
+      <li>
+        <!-- Display the user's profile image as a link to their profile page. -->
+        <a href="/users/{{ g.user.id }}">
+          <img src="{{ g.user.image_url }}" alt="{{ g.user.username }}">
+          <!-- The user's image URL is dynamically loaded, as well as the 'alt' text with the user's username. -->
+        </a>
+      </li>
+
+      <li><a href="/posts/new">New Post</a></li>
+      <!-- Link to the "New Message" page where the user can create a new message. -->
+      <li><a href="/users/{{ g.user.id }}">Profile</a></li>
+      <li>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="fa fa-cogs fa-lg" style="color: black;"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a href="/logout">Logout</a></li>
+            <li><a href="/users/profile">Edit Profile</a></li>
+            <li><form action="/users/delete" method="POST" style="display: block;">
+              <!-- Styled to match other buttons -->
+              <button type="submit" class="btn btn-outline-danger dropdown-item">Delete Profile</button>
+                </form>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <!-- Link to log out and end the user's session. -->
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
+<!-- Main content area where the page content will be rendered. -->
+<div class="container">
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+  <!-- This loop iterates over any flashed posts with categories (success, error, etc.). -->
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  <!-- Displays the flash message in a styled alert box with the appropriate category (e.g., success or error). -->
+  {% endfor %}
+
+  {% block content %}
+  <!-- This is a block where content will be dynamically rendered from child templates that extend this base template. -->
+  {% endblock %}
+</div>
+
+
+</body>
+</html>

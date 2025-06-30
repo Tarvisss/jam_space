@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block content %} 
+<div class="container-main">
+ <h3>What type of profile would you like to make?</h3>
+ 
+   <form method="POST">
+       {{ form.hidden_tag() }}
+       <div>
+           <!-- {{ form.choice.label }} -->
+           {{ form.choice(class_="form-select form-select-lg mb-3") }}
+       </div>
+        <button id="sign-up-btn"type="submit" class="btn btn-dark">Next</button>
+           
+   </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div id="jam-space" class="full-width" style="background-image: url('{{ user.header_image_url }}');">
+
+</div>
+<div class="container d-flex justify-content-center">
+  <img src="{{ user.image_url }}" alt="Image for {{ user.username }}" id="profile-avatar">
+</div>
+
+
+<!-- Stats Section -->
+<div class="row">
+  <div class="container d-flex justify-content-center">
+    <div class="row g-2">
+      <div>
+        <ul class="user-stats nav nav-pills">
+          <li class="stat">
+            <p class="small">Posts</p>
+            <h4>
+              <a href="/users/{{ user.id }}">{{ user.posts | length }}</a>
+            </h4>
+          </li>
+          <li class="stat">
+            <p class="small">Following</p>
+            <h4>
+              <a href="/users/{{ user.id }}/following">{{ user.following | length }}</a>
+            </h4>
+          </li>
+          <li class="stat">
+            <p class="small">Followers</p>
+            <h4>
+              <a href="/users/{{ user.id }}/followers">{{ user.followers | length }}</a>
+            </h4>
+          </li>
+          <li class="stat">
+            <p class="small">Likes</p>
+            <h4>
+              <a href="/users/{{user.id}}/likes">{{ user.likes|length }}</a>
+            </h4>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+        {% block user_details %}
+          
+        {% endblock %}
+<hr style="border: 2px solid rgb(255, 255, 255);">
+
+<div class="container">
+  <div class="row justify-content-center">
+    <!-- Search Form Section (Always centered) -->
+    <div class="col-md-6">
+      <h1 class="text-center">Search for an Artist</h1>
+      <form method="POST" action="/search">
+        <input type="text" name="artist_name" placeholder="Enter artist name" required class="form-control mb-2">
+        <button type="submit" class="btn btn-primary w-100">Search</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-4">
+    <!-- Search Results Section -->
+    <div class="col-md-6">
+      {% if artists %}
+        <h1 class="text-center">Search Results</h1> <!-- Center results header -->
+        <ul class="list-group">
+          {% for artist in artists %}
+            <li class="list-group-item">
+              <a href="/artist/{{ artist.id }}">
+                <img src="{{ artist.images[0]['url'] if artist.images else '/static/images/default-artist.jpg' }}" alt="Artist Image" width="50">
+                {{ artist.name }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Artist Details Section (If an artist is selected) -->
+  {% if artist %}
+    <div class="artist-card-container mt-4">
+      <div class="card mx-auto" style="width: 18rem;">
+        <div id="artist-details">
+          <h5 class="card-title text-center">{{ artist.name }}</h5> <!-- Center artist name -->
+          <img src="{{ artist.images[0]['url'] if artist.images else '/static/images/default-artist.jpg' }}" alt="Artist Image" width="200" class="d-block mx-auto"> <!-- Center the image -->
+          <div class="card-body">
+            <p><strong>Genres:</strong> {{ artist.genres | join(', ') }}</p>
+            <p><strong>Followers:</strong> {{ artist.followers.total }}</p>
+            <p><strong>Popularity:</strong> {{ artist.popularity }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+  
+    
+{% endblock %}
