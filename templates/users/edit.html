@@ -56,8 +56,22 @@
             <div class="edit-btn-area">
                 <button class="btn btn-dark">Edit User!</button>
                 <a href="/users/{{ g.user.id }}" class="btn btn-outline-secondary">Back to Profile</a>
-            </div>
+               
+            </div> 
         </form>
+        <!-- delete the users profile  -->
+        <div style="text-align: center; margin: 2rem 0;">
+                <form action="/users/delete" method="POST">
+                  {{ delete_form.hidden_tag()  }}
+                  <button class="btn btn-danger" type="submit" 
+                    style="border: 1px solid black; 
+                    border-radius: 50px; 
+                    padding: 0.5rem 1rem;  
+                    color: white;">
+                    Delete Profile
+                  </button>
+                </form>
+              </div>
     </div>
 </div>
 

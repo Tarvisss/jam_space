@@ -78,19 +78,17 @@
       <li><a href="/users/{{ g.user.id }}">Profile</a></li>
       <li>
         <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          <span class="fa fa-cogs fa-lg" style="color: black;"></span>
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown" aria-expanded="false"
+                  style="padding: 0.5rem 0.75rem; border-radius: 50%; background-color: transparent; border: none;">
+                    <i class="fas fa-bars" style="font-size: 1.5rem; color: black;"></i>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a href="/logout">Logout</a></li>
-            <li><a href="/users/profile">Edit Profile</a></li>
-            <li><form action="/users/delete" method="POST" style="display: block;">
-              <!-- Styled to match other buttons -->
-              <button type="submit" class="btn btn-outline-danger dropdown-item">Delete Profile</button>
-                </form>
-            </li>
+            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            <li><a class="dropdown-item" href="/users/profile">Edit Profile</a></li>
           </ul>
         </div>
+
       </li>
       <!-- Link to log out and end the user's session. -->
       {% endif %}

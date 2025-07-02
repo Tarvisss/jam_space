@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, RadioField, SubmitField, SelectField, HiddenField
-from wtforms.validators import DataRequired, Email, Length, Optional, URL, InputRequired
+from wtforms.validators import DataRequired, Email, Length, Optional, URL, InputRequired, EqualTo
 
 
 class PostForm(FlaskForm):
@@ -15,6 +15,7 @@ class UserAddForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('E-mail', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[Length(min=6)])
+    password_check = PasswordField('Re-enter password', validators=[EqualTo('password', message='Passwords must match')])
     image_url = StringField('(Optional) Image URL', validators=[Optional(), URL()])
     type = HiddenField('User Type')
 
@@ -66,3 +67,7 @@ class MusicianForm(FlaskForm):
 class PreSignupForm(FlaskForm):
     choice = SelectField('', choices=[('1', 'Fan'), ('2', 'Organizer'), ('3', 'Musician')], validators=[InputRequired()])
     submit = SubmitField('Submit')
+
+class DeleteForm(FlaskForm):
+    """A simple form with just CSRF protection for deleting a user."""
+    pass

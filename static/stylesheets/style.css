@@ -54,6 +54,9 @@ body {
   color: #1192a8;
 }
 
+.navbar i:hover {
+  color: #1192a8;
+}
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -122,7 +125,7 @@ nav form.navbar-form {
  */
 
 .onboarding > .navbar {
-  background-image: url("/static/images/Art Loop GIF by xponentialdesign.gif");
+  background-image: url("/static/images/black-texture-background-x1hqyzq5axj938y1.jpg");
   background-size: 100% 100%;
 }
 

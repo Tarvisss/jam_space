@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, flash, redirect, session, g, 
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 import requests
-from forms import UserAddForm, LoginForm, PostForm, UserUpdateForm, PreSignupForm, MusicianForm, OrganizerForm, FanForm
+from forms import UserAddForm, LoginForm, PostForm, UserUpdateForm, PreSignupForm, MusicianForm, OrganizerForm, FanForm, DeleteForm
 from models import db, connect_db, User, Post
 
 # Constant for current user session key
@@ -465,9 +465,11 @@ def profile():
     form.header_image_url.data = g.user.header_image_url
     form.bio.data = g.user.bio
     form.location.data = g.user.location
+    delete_form = DeleteForm()
+
 
     return render_template('users/edit.html', form=form, user_type=user_type, 
-                           fan_form=fan_form, organizer_form=organizer_form, musician_form=musician_form)
+                           fan_form=fan_form, organizer_form=organizer_form, musician_form=musician_form, delete_form=delete_form)
 
 
 # Route to delete a user's account
